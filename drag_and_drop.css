@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+
+.square {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	background: red;
+	cursor:move;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+p {
+	padding: 0px;
+	margin: 0px;
+	outline-style: dotted;
+	outline-color: #000;
+	outline-width: 1px;
+}
