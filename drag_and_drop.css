@@ -1,15 +1,32 @@
 @charset "utf-8";
 /* CSS Document */
 
+.drag {
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.bound {
+    width: 300px;
+    height: 300px;
+    position: relative;
+}
+
 .square {
-	position: absolute;
-	width: 100px;
-	height: 100px;
-	background: red;
-	cursor:move;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	user-select: none;
+    width: 100px;
+    height: 100px;
+    background: red;
+    cursor:move;
+}
+
+div {
+    padding: 0px;
+    margin: 0px;
+    outline-style: dotted;
+    outline-color: #000;
+    outline-width: 1px;
 }
 
 p {

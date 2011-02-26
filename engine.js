@@ -1,37 +1,39 @@
 // JavaScript Document
 
-var posX;
-var posY;
-var index;
-var element;
-var currentPos;
+var dragObj;
 
-document.addEventListener("mousedown", drag, false);
+document.addEventListener("mousedown", down, false);
 
-function drag(event) {
-	if(event.target.className == "square") {
-		element = event.target;
-		element.style.zIndex="100";
-		currentPos = findPos(element);
-		posX = event.clientX -currentPos.x; //-parseInt(element.offsetLeft);
-		posY = event.clientY -currentPos.y; //-parseInt(element.offsetTop);
-		document.addEventListener("mousemove", move, false);
+function down(event) {
+	if(~event.target.className.search(/drag/)) {
+		var e = event.target;
+		dragObj = {
+			element: e,
+			boundX: e.parentNode.offsetWidth - e.offsetWidth,
+			boundY: e.parentNode.offsetHeight - e.offsetHeight,
+			posX: event.clientX -e.offsetLeft,
+			posY: event.clientY -e.offsetTop
+		};
+		
+		dragObj.element.style.zIndex="100";
+		document.addEventListener("mousemove", freeMovement, false);
 	}
 }
 
-function move(event) {
+function freeMovement(event) {
 	
-	if (typeof(element.mouseup) == "undefined")
+	if (typeof(dragObj.element.mouseup) == "undefined")
 		document.addEventListener("mouseup", drop, false);
 	//Prevents redundantly adding the same event handler repeatedly
 	
-	element.style.left = event.clientX - posX + "px";
-	element.style.top = event.clientY - posY + "px";
+	dragObj.element.style.left = Math.max(0, Math.min(event.clientX - dragObj.posX, dragObj.boundX)) + "px";
+    dragObj.element.style.top = Math.max(0, Math.min(event.clientY - dragObj.posY, dragObj.boundY)) + "px";
 }
 
 function drop() {
-	element.style.zIndex="1";
-	document.removeEventListener("mousemove", move, false);
+	dragObj.element.style.zIndex="1";
+	
+	document.removeEventListener("mousemove", freeMovement, false);
 	document.removeEventListener("mouseup", drop, false);
 	//alert("DEBUG_DROP");
 }
