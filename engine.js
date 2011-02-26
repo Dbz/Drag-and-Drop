@@ -6,15 +6,7 @@ document.addEventListener("mousedown", down, false);
 
 function down(event) {
 	if(~event.target.className.search(/drag/)) {
-		var e = event.target;
-		dragObj = {
-			element: e,
-			boundX: e.parentNode.offsetWidth - e.offsetWidth,
-			boundY: e.parentNode.offsetHeight - e.offsetHeight,
-			posX: event.clientX -e.offsetLeft,
-			posY: event.clientY -e.offsetTop
-		};
-		
+		dragObj = makeObj(event.target);
 		dragObj.element.style.zIndex="100";
 		document.addEventListener("mousemove", freeMovement, false);
 	}
@@ -38,6 +30,18 @@ function drop() {
 	//alert("DEBUG_DROP");
 }
 
+function makeObj(e) {
+	obj = new Object();
+	obj.element = e;
+	
+	obj.boundX = e.parentNode.offsetWidth - e.offsetWidth;
+	obj.boundY = e.parentNode.offsetHeight - e.offsetHeight;
+	
+	obj.posX = event.clientX - e.offsetLeft;
+	obj.posY = event.clientY - e.offsetTop;
+	
+	return obj;
+}
 function findPos(obj) { // Donated by `lwburk` on StackOverflow
     var curleft = curtop = 0;
     if (obj.offsetParent) {
