@@ -42,6 +42,34 @@ function makeObj(e) {
 	
 	return obj;
 }
+
+function makeBoundlessObj(e) {
+	obj = new Object();
+	obj.element = e;
+	
+	obj.boundX = e.parentNode.offsetWidth - e.offsetWidth;
+	obj.boundY = e.parentNode.offsetHeight - e.offsetHeight;
+	
+	obj.posX = event.clientX - e.offsetLeft;
+	obj.posY = event.clientY - e.offsetTop;
+	
+	var curleft = curtop = 0;
+	if (e.offsetParent) {
+        do {
+            curleft += e.offsetLeft;
+            curtop += e.offsetTop;
+			if(~e.className.search(/bound/)) {
+				obj.boundX = curleft - obj.element.offsetWidth;
+				obj.boundY = curtop - obj.element.offsetHeight;
+				break;
+			}
+				
+        } while (e = e.offsetParent);
+    }
+	
+	return obj;
+}
+
 function findPos(obj) { // Donated by `lwburk` on StackOverflow
     var curleft = curtop = 0;
     if (obj.offsetParent) {
