@@ -1,6 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
 
+* {
+	padding: 0px;
+	margin: 0px;
+}
+
 .drag {
     position: absolute;
     -webkit-user-select: none;
@@ -19,25 +24,21 @@
     cursor:move;
 }
 
-div {
-    padding: 0px;
-    margin: 0px;
-}
-
-ul {
-	;
-}
-
-li {
-	list-style-type: none;
-}
-
 #center {
 	width: 500px;
 	height: 300px;
 	margin: auto;
+	margin-top: 50px;
 	background-color:#CCC;
 	text-align: center;
 	border-radius: 25px;
 	-moz-border-radius: 25px;
+}
+
+#box {
+	background-color: #FF3;
+	min-height: 100%;
+	border-radius: 0 0 25px 25px;
+	-moz-border-radius: 0 0 25px 25px;
+	opacity: 0.5;
 }
