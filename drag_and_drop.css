@@ -9,8 +9,6 @@
 }
 
 .bound {
-    width: 300px;
-    height: 300px;
     position: relative;
 }
 
@@ -24,15 +22,22 @@
 div {
     padding: 0px;
     margin: 0px;
-    outline-style: dotted;
-    outline-color: #000;
-    outline-width: 1px;
 }
 
-p {
-	padding: 0px;
-	margin: 0px;
-	outline-style: dotted;
-	outline-color: #000;
-	outline-width: 1px;
+ul {
+	;
+}
+
+li {
+	list-style-type: none;
+}
+
+#center {
+	width: 500px;
+	height: 300px;
+	margin: auto;
+	background-color:#CCC;
+	text-align: center;
+	border-radius: 25px;
+	-moz-border-radius: 25px;
 }
