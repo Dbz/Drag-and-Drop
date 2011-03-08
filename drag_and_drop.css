@@ -1,9 +1,14 @@
 @charset "utf-8";
 /* CSS Document */
 
+
 * {
-	padding: 0px;
-	margin: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+	background-color:#DFDFDF;
 }
 
 .drag {
@@ -14,31 +19,39 @@
 }
 
 .bound {
-    position: relative;
+    ;
 }
 
 .square {
     width: 100px;
     height: 100px;
-    background: red;
+    background: #1047A9;
     cursor:move;
+	border-radius: 25px;
+    -moz-border-radius: 25px;
 }
 
 #center {
-	width: 500px;
-	height: 300px;
-	margin: auto;
-	margin-top: 50px;
-	background-color:#CCC;
-	text-align: center;
+    width: 500px;
+    margin: auto;
+    margin-top: 50px;
+    background-color: #29477F;
+	color: #E8E8E8;
+    text-align: center;
 	border-radius: 25px;
-	-moz-border-radius: 25px;
+    -moz-border-radius: 25px;
 }
 
 #box {
-	background-color: #FF3;
-	min-height: 100%;
-	border-radius: 0 0 25px 25px;
-	-moz-border-radius: 0 0 25px 25px;
-	opacity: 0.5;
+    background-color: #009EBE;
+    height: 275px;
+    border-radius: 0 0 25px 25px;
+    -moz-border-radius: 0 0 25px 25px;
+    opacity: 1.0;
+}
+
+.helper-box {
+    position: absolute;
+    width: 5px;
+    height: 5px;
 }

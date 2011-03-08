@@ -6,7 +6,7 @@ document.addEventListener("mousedown", down, false);
 
 function down(event) {
 	if(~event.target.className.search(/drag/)) {
-		dragObj = makeObj(event.target);
+		dragObj = makeObj(event);
 		dragObj.element.style.zIndex="100";
 		document.addEventListener("mousemove", freeMovement, false);
 	}
@@ -17,9 +17,9 @@ function freeMovement(event) {
 	if (typeof(dragObj.element.mouseup) == "undefined")
 		document.addEventListener("mouseup", drop, false);
 	//Prevents redundantly adding the same event handler repeatedly
-	
-	dragObj.element.style.left = Math.max(0, Math.min(event.clientX - dragObj.posX, dragObj.boundX)) + "px";
-    dragObj.element.style.top = Math.max(0, Math.min(event.clientY - dragObj.posY, dragObj.boundY)) + "px";
+
+	dragObj.element.style.left = Math.max(dragObj.maxBoundX, Math.min(dragObj.minBoundX, event.clientX - dragObj.posX)) + "px";
+    dragObj.element.style.top = Math.max(dragObj.maxBoundY, Math.min(dragObj.minBoundY, event.clientY - dragObj.posY)) + "px";
 }
 
 function drop() {
@@ -30,42 +30,34 @@ function drop() {
 	//alert("DEBUG_DROP");
 }
 
-function makeObj(e) {
-	obj = new Object();
-	obj.element = e;
-	
-	obj.boundX = e.parentNode.offsetWidth - e.offsetWidth;
-	obj.boundY = e.parentNode.offsetHeight - e.offsetHeight;
-	
-	obj.posX = event.clientX - e.offsetLeft;
-	obj.posY = event.clientY - e.offsetTop;
-	
-	return obj;
-}
 
-function makeBoundlessObj(e) {
-	obj = new Object();
+function makeObj(event) {
+	var obj = new Object();
+	var e = event.target;
+	
 	obj.element = e;
+	obj.boundElement = null;
 	
-	obj.boundX = e.parentNode.offsetWidth - e.offsetWidth;
-	obj.boundY = e.parentNode.offsetHeight - e.offsetHeight;
+	while(e = e.parentNode) {
+		if(~e.className.search(/bound/)) { //if(/bound/.test(e.className)) {
+			obj.boundElement = e;
+			break;
+		}
+	}
 	
-	obj.posX = event.clientX - e.offsetLeft;
-	obj.posY = event.clientY - e.offsetTop;
+    if(obj.boundElement == null)
+		obj.boundElement = document.body;
 	
-	var curleft = curtop = 0;
-	if (e.offsetParent) {
-        do {
-            curleft += e.offsetLeft;
-            curtop += e.offsetTop;
-			if(~e.className.search(/bound/)) {
-				obj.boundX = curleft - obj.element.offsetWidth;
-				obj.boundY = curtop - obj.element.offsetHeight;
-				break;
-			}
-				
-        } while (e = e.offsetParent);
-    }
+	obj.minBoundX = obj.boundElement.offsetLeft + obj.boundElement.offsetWidth - obj.element.offsetWidth;
+	obj.minBoundY = obj.boundElement.offsetTop + obj.boundElement.offsetHeight - obj.element.offsetHeight;
+	
+	obj.maxBoundX = obj.boundElement.offsetLeft;
+	obj.maxBoundY = obj.boundElement.offsetTop;
+	
+	setHelperBoxPos(obj);
+	
+	obj.posX = event.clientX - obj.element.offsetLeft;
+	obj.posY = event.clientY - obj.element.offsetTop;
 	
 	return obj;
 }
@@ -79,4 +71,14 @@ function findPos(obj) { // Donated by `lwburk` on StackOverflow
         } while (obj = obj.offsetParent);
         return { x: curleft, y: curtop };
     }
+}
+
+function setHelperBoxPos(obj) {
+    var minBox = document.getElementById('min');
+    minBox.style.left = obj.minBoundX + 'px';
+    minBox.style.top = obj.minBoundY + 'px';
+    
+    var maxBox = document.getElementById('max');
+    maxBox.style.left = obj.maxBoundX + 'px';
+    maxBox.style.top = obj.maxBoundY + 'px';
 }
